@@ -1,0 +1,39 @@
+Public Tecla As String
+Dim Data As Date
+
+Private Sub CommandButton1_Click()
+
+ListBox1.ColumnCount = 8
+ListBox1.RowSource = "HistoricoCondutor!$A:$Z"
+
+ListBox1.Font.Size = 10
+ListBox1.Font.Name = "Verdana"
+
+End Sub
+Private Sub ListBox1_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
+
+Dim Linha As Integer
+Linha = UserForm7.ListBox1.ListIndex + 1
+
+
+
+With UserForm6
+With UserForm7.ListBox1
+
+
+UserForm6.TextBoxHisCadCond.Text = Sheets("HistoricoCondutor").Range("A" & Linha).Value
+UserForm6.ComboBoxAutCondHis.Text = .List(.ListIndex, 1)
+UserForm6.ComboBoxCPFHis.Text = .List(.ListIndex, 2)
+UserForm6.ComboBoxCondHis.Text = .List(.ListIndex, 3)
+UserForm6.ComboBoxSitCondHis.Text = .List(.ListIndex, 4)
+UserForm6.TextBoxSeqHisCond.Text = .List(.ListIndex, 25)
+'Exit For
+
+'Next x
+End With
+Unload UserForm7
+'.Show
+End With
+'End With
+End Sub
+

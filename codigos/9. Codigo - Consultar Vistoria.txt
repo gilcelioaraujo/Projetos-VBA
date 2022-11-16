@@ -1,0 +1,44 @@
+Private Sub CommandButton1_Click()
+
+ListBox1.ColumnCount = 13
+ListBox1.RowSource = "Vistoria!$A:$M"
+
+ListBox1.Font.Size = 10
+ListBox1.Font.Name = "Verdana"
+
+End Sub
+Private Sub ListBox1_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
+
+Dim Linha As Integer
+Linha = UserForm11.ListBox1.ListIndex + 1
+
+
+
+With UserForm10
+With UserForm11.ListBox1
+
+
+UserForm10.TextBoxDtVist.Text = Sheets("Vistoria").Range("A" & Linha).Value
+UserForm10.ComboBoxAutVist.Text = .List(.ListIndex, 1)
+UserForm10.TextBoxNºLauVist.Text = .List(.ListIndex, 2)
+UserForm10.ComboBoxAutorVist.Text = .List(.ListIndex, 3)
+UserForm10.ComboBoxPlacVist.Text = .List(.ListIndex, 4)
+UserForm10.ComboBoxPlac1Vist.Text = .List(.ListIndex, 5)
+UserForm10.ComboBoxPlac2Vist.Text = .List(.ListIndex, 6)
+UserForm10.TextBoxNºSeloVist.Text = .List(.ListIndex, 7)
+UserForm10.TextBoxQtdPasVist.Text = .List(.ListIndex, 8)
+UserForm10.TextBoxValTacogVist.Text = .List(.ListIndex, 9)
+UserForm10.ComboBoxSitVist.Text = .List(.ListIndex, 10)
+UserForm10.TextBoxObsVist.Text = .List(.ListIndex, 11)
+'UserForm10.TextBoxRetVist.Text = .List(.ListIndex, 12)
+UserForm10.TextBoxRetVist.Text = Sheets("Vistoria").Range("M" & Linha).Value
+'Exit For
+
+'Next x
+End With
+Unload UserForm11
+'.Show
+End With
+'End With
+End Sub
+

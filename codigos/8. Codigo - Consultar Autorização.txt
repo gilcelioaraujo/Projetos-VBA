@@ -1,0 +1,81 @@
+Public Tecla As String
+Dim Data As Date
+
+Private Sub CommandButton1_Click()
+
+ListBox1.ColumnCount = 8
+ListBox1.RowSource = "Historico!$A:$Z"
+
+ListBox1.Font.Size = 10
+ListBox1.Font.Name = "Verdana"
+
+End Sub
+Private Sub ListBox1_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
+
+Dim Linha As Integer
+Linha = UserForm5.ListBox1.ListIndex + 1
+
+
+
+With UserForm3
+With UserForm5.ListBox1
+
+
+UserForm3.TextCadHis.Text = Sheets("Historico").Range("A" & Linha).Value
+'UserForm3.TextCadHis.Text = .List(.ListIndex, 0)
+UserForm3.ComboBoxCNPJ.Text = .List(.ListIndex, 1)
+UserForm3.ComboBoxAutor.Text = .List(.ListIndex, 2)
+UserForm3.ComboBoxAut.Text = .List(.ListIndex, 3)
+UserForm3.ComboBoxSit.Text = .List(.ListIndex, 4)
+UserForm3.ComboBoxPlacPrin.Text = .List(.ListIndex, 5)
+UserForm3.ComboBoxPlac1.Text = .List(.ListIndex, 6)
+UserForm3.ComboBoxPlac2.Text = .List(.ListIndex, 7)
+UserForm3.TextIntiner.Text = .List(.ListIndex, 8)
+UserForm3.TextBoxSeqHis.Text = .List(.ListIndex, 25)
+'Exit For
+
+'Next x
+End With
+Unload UserForm5
+'.Show
+End With
+'End With
+End Sub
+Private Sub ListBox1_Change()
+'apagar com backspace
+On Error Resume Next
+If Tecla = 8 Then
+Exit Sub
+End If
+
+'Formata : dd/mm/aa
+    If Len(UserForm3.TextCadHis) = 2 Or Len(UserForm3.TextCadHis) = 5 Then
+        UserForm3.TextCadHis.Text = UserForm3.TextCadHis.Text & "/"
+        'SendKeys "{End}", True
+    End If
+
+End Sub
+Private Sub ListBox1_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    'Limita a Qde de caracteres
+    UserForm3.TextCadHis.MaxLength = 10
+ 
+    'para permitir que apenas números sejam digitados
+    If KeyAscii < Asc("0") Or KeyAscii > Asc("9") Then
+        KeyAscii = 0
+    End If
+ 
+End Sub
+
+Private Sub ListBox1_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
+Tecla = Empty
+Tecla = KeyCode
+End Sub
+Private Function SóNúmeros(l As IReturnInteger)
+    Select Case l
+        Case Asc("0") To Asc("9")
+            SóNúmeros = l
+        Case Else
+            SóNúmeros = 0
+            MsgBox "Favor inserir apenas números!", vbExclamation, "CAMPO TIPO NÚMERO"
+    End Select
+End Function

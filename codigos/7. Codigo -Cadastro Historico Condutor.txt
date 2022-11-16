@@ -1,0 +1,173 @@
+Public Tecla As String
+Dim Data As Date
+
+Private Sub btnEditar_Click()
+On Error GoTo Erro
+
+If TextBoxHisCadCond = "" Or ComboBoxAutCondHis = "" Or ComboBoxCondHis = "" Or ComboBoxCPFHis = "" _
+Or ComboBoxSitCondHis = "" Then
+
+MsgBox "Preencha os campos obrigatorios!", vbCritical, "Erro"
+Exit Sub
+End If
+
+Dim Linha As Double
+Linha = 1
+
+Dim Cpf As Variant
+Cpf = ComboBoxCPFHis.Value
+
+Dim Data As Date
+Data = TextBoxHisCadCond
+
+With Planilha8
+
+Do
+Linha = Linha + 1
+
+If .Cells(Linha, 26).Value = TextBoxSeqHisCond.Text Then
+
+ .Cells(Linha, 3).Value = Cpf
+ .Cells(Linha, 1).Value = Data
+ .Cells(Linha, 2).Value = ComboBoxAutCondHis.Text
+ .Cells(Linha, 4).Value = ComboBoxCondHis.Text
+ .Cells(Linha, 5).Value = ComboBoxSitCondHis.Text
+ .Cells(Linha, 26).Value = TextBoxSeqHisCond.Text
+ 
+ MsgBox "Editado com Sucesso!", vbInformation, "EDITAR"
+ 
+ Call limpar
+     
+ Exit Sub
+ End If
+
+Loop Until .Cells(Linha, 26).Value = ""
+
+ End With
+ MsgBox "Não EDITADO!", vbInformation, "EDITAR"
+
+Exit Sub
+Erro:
+MsgBox "Erro!", vbCritical, "ERRO"
+
+
+End Sub
+
+Private Sub btnLimpar_Click()
+
+Call limpar
+
+End Sub
+
+Private Sub btnPesquisar_Click()
+UserForm7.Show
+End Sub
+
+Private Sub btnSalvar_Click()
+
+If TextBoxHisCadCond = "" Or ComboBoxAutCondHis = "" Or ComboBoxCondHis = "" Or ComboBoxCPFHis = "" _
+Or ComboBoxSitCondHis = "" Then
+
+
+MsgBox "Preencha os campos obrigatorios!", vbCritical, "Erro"
+Exit Sub
+End If
+
+'Dim Ver As Double
+'Ver = WorksheetFunction.CountIf(Planilha8.Range("C:C"), ComboBoxCPFHis)
+
+'If Ver > 0 Then
+'MsgBox "CPF já está Cadastrado!", vbCritical, "Erro"
+'Exit Sub
+'End If
+
+Dim Linha As Double
+Linha = 1
+
+Dim Cpf As Variant
+Cpf = ComboBoxCPFHis.Value
+With Planilha8
+
+Dim Data As Date
+Data = TextBoxHisCadCond
+
+Do
+Linha = Linha + 1
+
+Loop Until .Cells(Linha, 3).Value = ""
+
+
+ .Cells(Linha, 3).Value = Cpf
+ .Cells(Linha, 1).Value = Data 'TextCadCond.Text
+ .Cells(Linha, 2).Value = ComboBoxAutCondHis.Text
+ .Cells(Linha, 4).Value = ComboBoxCondHis.Text
+ .Cells(Linha, 5).Value = ComboBoxSitCondHis.Text
+
+'Auto increment
+Dim Y As Integer
+With Planilha8
+
+Planilha8.Range("Z1").Select
+Planilha8.Range("Z1") = "0"
+
+Range("Z10000").End(xlUp).Offset(1, 0).Select
+Y = Range("Z10000").End(xlUp).Offset(0, 0).Value
+Me.TextBoxSeqHisCond = Y + 1
+End With
+ 
+ 
+ .Cells(Linha, 26).Value = TextBoxSeqHisCond.Text
+
+  
+ MsgBox "Salvo com Sucesso!", vbInformation, "Salvar"
+ 
+ Call limpar
+End With
+
+End Sub
+
+
+
+Private Sub ComboBoxCondHis_Change()
+ComboBoxCondHis = VBA.UCase(ComboBoxCondHis.Text)
+End Sub
+
+Private Sub TextBoxHisCadCond_Change()
+Planilha8.Select
+
+'apagar com backspace
+On Error Resume Next
+If Tecla = 8 Then
+Exit Sub
+End If
+
+'Formata : dd/mm/aa
+    If Len(TextBoxHisCadCond) = 2 Or Len(TextBoxHisCadCond) = 5 Then
+        TextBoxHisCadCond.Text = TextBoxHisCadCond.Text & "/"
+        
+    End If
+End Sub
+Private Sub TextBoxHisCadCond_KeyPress(ByVal KeyAscii As MSForms.ReturnInteger)
+    'Limita a Qde de caracteres
+    TextBoxHisCadCond.MaxLength = 10
+ 
+    'para permitir que apenas números sejam digitados
+    If KeyAscii < Asc("0") Or KeyAscii > Asc("9") Then
+        KeyAscii = 0
+    End If
+ 
+End Sub
+Private Sub TextBoxHisCadCond_KeyDown(ByVal KeyCode As MSForms.ReturnInteger, ByVal Shift As Integer)
+Tecla = Empty
+Tecla = KeyCode
+End Sub
+Sub limpar()
+
+TextBoxHisCadCond = ""
+ComboBoxAutCondHis = ""
+ComboBoxCondHis = ""
+ComboBoxCPFHis = ""
+ComboBoxSitCondHis = ""
+
+
+End Sub

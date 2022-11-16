@@ -1,0 +1,33 @@
+Private Sub CommandButton1_Click()
+ListBox1.ColumnCount = 8
+ListBox1.RowSource = "Licenciamento!$A:$Z"
+
+ListBox1.Font.Size = 10
+ListBox1.Font.Name = "Verdana"
+End Sub
+Private Sub ListBox1_DblClick(ByVal Cancel As MSForms.ReturnBoolean)
+
+Dim Linha As Integer
+Linha = UserForm9.ListBox1.ListIndex + 1
+
+
+
+With UserForm8
+With UserForm9.ListBox1
+
+UserForm8.TextBoxCadLic.Text = Sheets("Licenciamento").Range("A" & Linha).Value
+UserForm8.ComboBoxAutLic.Text = .List(.ListIndex, 1)
+UserForm8.ComboBoxPlacLic.Text = .List(.ListIndex, 2)
+UserForm8.TextAnoLic.Text = .List(.ListIndex, 3)
+UserForm8.TextBoxSeqLic.Text = .List(.ListIndex, 25)
+'Exit For
+
+'Next x
+End With
+Unload UserForm9
+'.Show
+End With
+'End With
+End Sub
+
+
